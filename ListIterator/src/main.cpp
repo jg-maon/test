@@ -4,47 +4,63 @@
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-#include "List.h"
 #include <iostream>
 using namespace std;
+#include <functional>
+#include <algorithm>
+#include <list>
 
-template<class T> void print(const ns_Exercise3::List<T>& l)
+template<class T> void print(const std::list<T>& list)
 {
-	for (auto n = l.first(); n != l.end(); n = n->next())
+	for (auto& l : list)
 	{
-		cout << *n->val() << endl;
+		std::cout << l << std::endl;
 	}
 }
-#include<list>
+
+template<class T, class Iterator, class CMP> void qsort(Iterator& left, Iterator& right, const CMP& cmp)
+{
+	if (left == right) return;
+	Iterator ai = left,	aj = right;
+	--aj;
+	const T pivot = *left;
+	for (;;) {
+		while (cmp(*ai, pivot)) ++ai;
+		while (cmp(pivot, *aj)) --aj;
+		std::list<T>::iterator ak = aj;
+		++ak;
+		if (ai == aj) break;
+		if (ai == ak) break;
+		std::swap(*ai, *aj);
+		++ai; --aj;
+	}
+	++aj;
+	qsort<T>(left, ai, cmp);
+	qsort<T>(aj, right, cmp);
+}
+
+template<class T, class CMP> void qsort(std::list<T>& list, const CMP& cmp)
+{
+	qsort<T>(list.begin(), list.end(), cmp);
+}
+
+
 void proc()
 {
-	ns_Exercise3::List<int> l;
+	std::list<int> list;
 
-	//l.push_back(1);
-	//l.push_back(5);
-	//l.push_back(3);
-	//l.push_back(2);
-	//l.push_back(4);
+	list.push_back(1);
+	list.push_back(3);
+	list.push_back(2);
+	list.push_back(5);
+	list.push_back(4);
 
-	l.push_back(1);
-	l.push_back(2);
-	l.push_back(3);
+	print(list);
 
-	//auto it = l.begin();
-	//l.InsertBack(it, 30);	// [1],30,2,3,4,5
-	//it++;					// 1,[30],2,3,4,5
-	//l.erase(it);			// 1,[2],3,4,5
-	//*it = 20;				// 1,[20],3,4,5
-	//++it;					// 1,20,[3],4,5
-	//l.erase(it);			// 1,20,[4],5
+	qsort(list, std::greater<int>());
 
+	print(list);
 
-	print(l);
-
-	cout << "--------------" << endl;
-
-	l.QSort();
-	print(l);
 }
 int main()
 {
