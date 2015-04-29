@@ -526,13 +526,14 @@ namespace ex01_DataStructure
 			{
 				for (auto it = GetBegin(); it != GetEnd(); ++it)
 				{
-					printf("%d\n", *it);
+					printf("%d ", *it);
 				}
+				printf("\n");
 				if (reverse)
 				{
 					for (auto it = --GetEnd(); it != GetBegin(); --it)
 					{
-						printf("%d\n", *it);
+						printf("%d ", *it);
 					}
 					printf("%d\n", *GetBegin());
 				}
@@ -552,16 +553,32 @@ namespace ex01_DataStructure
 		template<class CMP>
 		void List<T>::QSort(CMP cmp)
 		{
-			_QSort(GetBegin(), GetEnd(), cmp);
+			_QSort(GetBegin(), --GetEnd(), cmp);
 		}
 
 		template<class T>
 		template<class CMP>
 		void List<T>::_QSort(const Iterator& left, const Iterator& right, CMP cmp)
 		{
-			if (left == right) return;
+			if (left == right)
+			{
+				return;
+			}
+			LIST_NODE* pLeft = left.m_pNode;
+			LIST_NODE* pRight = right.m_pNode;
+#if 1
+			LIST_NODE* plp = pLeft->pPrev;
+			LIST_NODE* pln = pLeft->pNext;
+			LIST_NODE* prp = pRight->pPrev;
+			LIST_NODE* prn = pRight->pNext;
+			printf("left:%d, right:%d\n"
+					"%d,%d,%d | %d,%d,%d\n",
+					*left, *right,
+					(plp)?(plp->data):-1, *left, pln->data, prp->data, *right, prn->data);
+			_print();
+#endif
 			Iterator lit = left, rit = right;
-			--rit;
+			//--rit;
 			const T& pivot = *left;
 			for (;;) {
 				while (cmp(*lit, pivot))
@@ -575,6 +592,11 @@ namespace ex01_DataStructure
 				// 同じ要素を選択したら
 				if (lit == rit)
 				{
+					//return;
+					rit++;
+					printf("右半分\n");
+					_QSort(rit, Iterator(pRight, this), cmp);
+					//++lit;
 					break;
 				}
 				// 右と左が逆転したら
@@ -594,6 +616,12 @@ namespace ex01_DataStructure
 					// 次ノードへ
 					lit = ++Iterator(pRightNode, this);
 					rit = --Iterator(pLeftNode, this);
+					
+					if (pLeftNode == pLeft)
+					{
+						pLeft = pRightNode;
+						pRight = pLeftNode;
+					}
 				}
 				else
 				{
@@ -602,12 +630,14 @@ namespace ex01_DataStructure
 				}
 			}
 			// 戻りすぎた分を進む
-			++rit;
+			//++rit;
 
 			// 左半分
-			_QSort(left, lit, cmp);
+			printf("左半分\n");
+			_QSort(Iterator(pLeft, this), lit, cmp);
 			// 右半分
-			_QSort(rit, right, cmp);
+			printf("右半分\n");
+			_QSort(rit, Iterator(pRight, this), cmp);
 		}
 
 		template<class T>
