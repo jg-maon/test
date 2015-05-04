@@ -70,7 +70,8 @@ namespace ex01_DataStructure
 					{
 						pRight = pLeftNode;
 					}
-				}				
+				}
+				// Ÿ‚Ìƒm[ƒh‚Ö
 				++lit;
 				--rit;
 			}
