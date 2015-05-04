@@ -512,11 +512,11 @@ namespace ex01_DataStructure
 				auto rit = GetBegin();
 				for (int i = 0; i < right; ++i)
 					++rit;
-				_SwapNode(lit.m_pNode, rit.m_pNode);
+				_SwapNode(lit, rit);
 			}
 
 		private:
-			bool _SwapNode(LIST_NODE* left, LIST_NODE* right);
+			bool _SwapNode(Iterator& left, Iterator& right);
 
 			template<class CMP>
 			void _QSort(const Iterator& left, const Iterator& right, CMP cmp);
@@ -549,150 +549,7 @@ namespace ex01_DataStructure
 		};	// class List<T>
 
 
-		template<class T>
-		template<class CMP>
-		void List<T>::QSort(CMP cmp)
-		{
-			_QSort(GetBegin(), --GetEnd(), cmp);
-		}
-
-		template<class T>
-		template<class CMP>
-		void List<T>::_QSort(const Iterator& left, const Iterator& right, CMP cmp)
-		{
-			if (left == right)
-			{
-				return;
-			}
-			LIST_NODE* pLeft = left.m_pNode;
-			LIST_NODE* pRight = right.m_pNode;
-#if 1
-			LIST_NODE* plp = pLeft->pPrev;
-			LIST_NODE* pln = pLeft->pNext;
-			LIST_NODE* prp = pRight->pPrev;
-			LIST_NODE* prn = pRight->pNext;
-			printf("left:%d, right:%d\n"
-					"%d,%d,%d | %d,%d,%d\n",
-					*left, *right,
-					(plp)?(plp->data):-1, *left, pln->data, prp->data, *right, prn->data);
-			_print();
-#endif
-			Iterator lit = left, rit = right;
-			//--rit;
-			const T& pivot = *left;
-			for (;;) {
-				while (cmp(*lit, pivot))
-				{
-					++lit;
-				}
-				while (cmp(pivot, *rit))
-				{
-					--rit;
-				}
-				// 同じ要素を選択したら
-				if (lit == rit)
-				{
-					//return;
-					rit++;
-					printf("右半分\n");
-					_QSort(rit, Iterator(pRight, this), cmp);
-					//++lit;
-					break;
-				}
-				// 右と左が逆転したら
-				Iterator it = rit;
-				++it;
-				if (lit == it)
-				{
-					break;
-				}
-
-				// ノードの入れ替え
-				//std::swap(*lit, *rit);
-				LIST_NODE* pLeftNode = lit.m_pNode;
-				LIST_NODE* pRightNode = rit.m_pNode;
-				if (_SwapNode(pLeftNode, pRightNode))
-				{
-					// 次ノードへ
-					lit = ++Iterator(pRightNode, this);
-					rit = --Iterator(pLeftNode, this);
-					
-					if (pLeftNode == pLeft)
-					{
-						pLeft = pRightNode;
-						pRight = pLeftNode;
-					}
-				}
-				else
-				{
-					++lit;
-					--rit;
-				}
-			}
-			// 戻りすぎた分を進む
-			//++rit;
-
-			// 左半分
-			printf("左半分\n");
-			_QSort(Iterator(pLeft, this), lit, cmp);
-			// 右半分
-			printf("右半分\n");
-			_QSort(rit, Iterator(pRight, this), cmp);
-		}
-
-		template<class T>
-		bool List<T>::_SwapNode(LIST_NODE* left, LIST_NODE* right)
-		{
-			// 同じ要素を交換する場合
-			if (left == right)
-			{
-				return false;
-			}
-			
-			LIST_NODE* leftPrev = left->pPrev;
-			LIST_NODE* leftNext = left->pNext;
-			LIST_NODE* rightPrev = right->pPrev;
-			LIST_NODE* rightNext = right->pNext;
-			printf("%d <-> %d\n", left->data, right->data);
-			// 左右の入れ替え
-			if (left == rightPrev || leftNext == right)
-			{
-				if (left != m_pFirst)
-					leftPrev->pNext = right;
-				rightNext->pPrev = left;
-
-				left->pNext = rightNext;
-				right->pPrev = leftPrev;
-
-				left->pPrev = right;
-				right->pNext = left;
-
-			}
-			else 
-			{
-				if (left != m_pFirst)
-					leftPrev->pNext = right;
-				rightNext->pPrev = left;
-
-				leftNext->pPrev = right;
-				rightPrev->pNext = left;
-
-				left->pNext = rightNext;
-				right->pPrev = leftPrev;
-
-				left->pPrev = rightPrev;
-				right->pNext = leftNext;
-			}
-
-			if (left == m_pFirst)
-				m_pFirst = right;
-			if (right == m_pLast)
-				m_pLast = left;
-
-			return true;
-			//_print();
-		}
-
+		
 	}	// namespace chapter02
 
 }	// namespace ex01_DataSturucture
