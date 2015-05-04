@@ -503,41 +503,13 @@ namespace ex01_DataStructure
 				const List<T>*		m_pList;
 			};
 
-		public:
-			void SwapNode(int left, int right)
-			{
-				auto lit = GetBegin();
-				for (int i = 0; i < left; ++i)
-					++lit;
-				auto rit = GetBegin();
-				for (int i = 0; i < right; ++i)
-					++rit;
-				_SwapNode(lit, rit);
-			}
-
+		
 		private:
+		
 			bool _SwapNode(Iterator& left, Iterator& right);
 
 			template<class CMP>
 			void _QSort(const Iterator& left, const Iterator& right, CMP cmp);
-
-
-			void _print(bool reverse = false)
-			{
-				for (auto it = GetBegin(); it != GetEnd(); ++it)
-				{
-					printf("%d ", *it);
-				}
-				printf("\n");
-				if (reverse)
-				{
-					for (auto it = --GetEnd(); it != GetBegin(); --it)
-					{
-						printf("%d ", *it);
-					}
-					printf("%d\n", *GetBegin());
-				}
-			}
 
 		private:
 			LIST_NODE*	m_pFirst;
