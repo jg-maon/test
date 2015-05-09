@@ -79,12 +79,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\List.h" />
+    <ClInclude Include="source\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\List.inl" />
+    <None Include="source\Random.inl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="out2.txt" />

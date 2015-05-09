@@ -3,9 +3,21 @@ namespace ex01_DataStructure
 {
 	namespace chapter02
 	{
-		template<class T>
-		template<class CMP>
-		void List<T>::QSort(CMP cmp)
+		//template<class T>
+		//template<class CMP>
+		//void List<T>::QSort(CMP cmp)
+		//{
+		//	_QSort(GetBegin(), GetEnd(), cmp);
+		//}
+
+		template<class ValueType>
+		void List<ValueType>::QSort(bool(*pCmp)(const ValueType&, const ValueType&))
+		{
+			_QSort(GetBegin(), GetEnd(), pCmp);
+		}
+
+		template<class ValueType>
+		void List<ValueType>::QSort(const std::function<bool(const ValueType&, const ValueType&)>& cmp)
 		{
 			_QSort(GetBegin(), GetEnd(), cmp);
 		}

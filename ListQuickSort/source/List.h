@@ -2,7 +2,7 @@
 #define __INCLUDED_LIST_H__
 #include <cstdio>
 
-
+#include <functional>
 
 namespace ex01_DataStructure
 {
@@ -124,8 +124,12 @@ namespace ex01_DataStructure
 			}
 
 
-			template<class CMP>
-			void QSort(CMP cmp);
+			//template<class CMP>
+			//void QSort(CMP cmp);
+
+			void QSort(bool (*pCmp)(const T&, const T&));
+
+			void QSort(const std::function<bool(const T&, const T&)>& cmp);
 
 		private:
 			// Žw’è—v‘f‚Ì‘O‚É‘}“ü

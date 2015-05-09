@@ -13,20 +13,32 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="random">
+      <UniqueIdentifier>{c13a13bc-cdf9-4b8e-a005-0a1237873edb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\List.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Random.h">
+      <Filter>random</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\Random.cpp">
+      <Filter>random</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\List.inl">
       <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="source\Random.inl">
+      <Filter>random</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
